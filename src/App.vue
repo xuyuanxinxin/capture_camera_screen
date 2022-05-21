@@ -1,45 +1,41 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue"
+const cameraVideo = ref<HTMLVideoElement>()
+const screenVideo = ref<HTMLVideoElement>()
 onMounted(async () => {
   const camera = await navigator.mediaDevices.getUserMedia({
     video: true,
     audio: false,
-  });
-  const cameraVideo = document.getElementById("camera") as HTMLVideoElement;
-  cameraVideo.onloadedmetadata = (_) => {
-    cameraVideo.play();
-  };
-  cameraVideo.srcObject = camera;
-});
+  })
+  cameraVideo.value!.onloadedmetadata = _ => cameraVideo.value!.play()
+  cameraVideo.value!.srcObject = camera
+})
 
 const getScreen = async () => {
   try {
     const screen = await navigator.mediaDevices.getDisplayMedia({
       video: true,
       audio: true,
-    });
-    const screenVideo = document.getElementById("screen") as HTMLVideoElement;
-    screenVideo.srcObject = screen;
-    screenVideo.onloadedmetadata = (_) => {
-      screenVideo.play();
-    };
+    })
+    screenVideo.value!.srcObject = screen
+    screenVideo.value!.onloadedmetadata = _ => screenVideo.value!.play()
   } catch (err) {
-    console.error("Error: " + err);
+    console.error("Error: " + err)
   }
-};
+}
 </script>
 
 <template>
   <main>
     <div class="inline v-center">
       <h1>摄像头和录屏测试</h1>
-      <button @click="getScreen" :style="{ width: '100px', height: '30px' }">
+      <button @click="getScreen" type="button" class="btn btn-primary">
         打开录屏
       </button>
     </div>
     <div class="inline">
-      <video id="camera"></video>
-      <video id="screen"></video>
+      <video id="camera" ref="cameraVideo"></video>
+      <video id="screen" ref="screenVideo"></video>
     </div>
   </main>
 </template>
