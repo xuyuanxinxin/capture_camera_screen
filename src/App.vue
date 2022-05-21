@@ -33,8 +33,8 @@ const getScreen = async () => {
   <main>
     <div class="inline v-center">
       <h1>摄像头和录屏测试</h1>
-      <button @click="getScreen" :style="{ width: '50px', height: '30px' }">
-        open
+      <button @click="getScreen" :style="{ width: '100px', height: '30px' }">
+        打开录屏
       </button>
     </div>
     <div class="inline">
